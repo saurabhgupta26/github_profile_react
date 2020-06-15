@@ -1,0 +1,18 @@
+* {
+    box-sizing: border-box;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+.user_image {
+    width: 100px;
+    border-radius: 50%;
+    border: 2px solid #14a333;
+}
+.btn {
+    display: flex;
+    justify-content: space-between;
+}

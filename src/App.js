@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Usercard from "./components/Usercard.jsx";
+import Buttons from './components/Buttons.jsx';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userIndex: 0,
+      user: null,
+      isLoading : false,
+      users : ["saurabhgupta26", "vivekbrh01", "nnnkit", "sanjibroy360", "maxagno3"]
+    };
+  }
+
+  update=(user)=> {
+    this.setState({user:null})
+   fetch(`https://api.github.com/users/${user}`)
+          .then((response) => response.json())
+          .then((data) =>
+            this.setState({
+              user: data,
+              isLoading:false
+            })
+          )
+          .catch((error) => this.setState({ error }));
+      }
+  
+  render() {
+    return ( <>
+      {(!this.state.isLoading )?
+    <div>
+      {this.state.users.map(user=>{
+        return <button onClick= {()=> this.update(user)}>{user}</button>
+        // <Buttons user = {user} />
+      })}
+     <h1>{(this.state.user && this.state.user)?
+     <Usercard user = {this.state.user} />
+     :"loading..."}</h1> 
+
     </div>
-  );
+    : <h1> Loading ...</h1> 
+  }
+  </>) 
+  }
 }
-
-export default App;
